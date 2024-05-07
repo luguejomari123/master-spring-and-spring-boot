@@ -20,3 +20,29 @@ context.getBeanDefinitionNames - list name of beans that are managed by spring
 component instantiating beans for own application code
 bean for custom business logic, instantiating beans for 3rd party libraries
 
+default initialization for spring beans is eager
+lazy initialization annotation indicates whether bean is lazy initialized(not recommended and not frequently used)
+
+eager initialization is recommended
+- errors in the configuration are discovered immediately at app startup
+
+spring bean scopes
+normal class(no scope annotation) - singleton (stateless beans, same bean used across application)
+prototype class - each time getbean is called, a different instance of bean is given(rarely used), used fo stateful beans(different user data,etc.)
+
+scopes only for web-aware SpringApplicationContext
+1. Request - one object instance per single http request
+2. Session - one object instance per user HTTP session
+3. Application - one object instance per web application runtime
+4. Websocket - one object instance per WebSocket instance
+
+Java Single (GOF) vs Spring Singleton
+spring singleton - one object instance per spring ioc container
+java singleton - one object instance per jvm
+
+postconstruct and predestroy
+@PostConstruct - used for initialization after dependencies are wired in (ex. fetching data from db)
+@PreDestroy - usually for cleanup before a bean is removed from container or context
+
+
+
