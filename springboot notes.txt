@@ -45,4 +45,15 @@ postconstruct and predestroy
 @PreDestroy - usually for cleanup before a bean is removed from container or context
 
 
-
+XmlConfiguration context sample (not frequently used)
+<bean id="name" class="java.lang.String">
+		<constructor-arg value="Ranga" />
+</bean>
+<bean id="age" class="java.lang.String">
+	<constructor-arg value="35" />
+</bean>
+<context:component-scan base-package="com.in28minutes.learnspringframework.game"/>
+<bean id="game" class="com.in28minutes.learnspringframework.game.PacmanGame"/>
+<bean id="gameRunner" class="com.in28minutes.learnspringframework.game.GameRunner">
+ 	<constructor-arg ref="game"/>
+ </bean>
