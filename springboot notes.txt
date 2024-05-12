@@ -1,59 +1,45 @@
-try(var context = new AnnotationConfigApplicationContext(ConfigurationClass.class))) {
+spring initializer
+start.spring.io
 
-}
+for rest api
+in spring initializer go to add dependencies -> spring web
 
-dependency injection - identify beans, their dependencies and wire them together (provides IOC or Inversion of Control)
-inversion of control - let the framework create the objects
-ioc container/context - manages the lifecycle of beans and dependencies
+put @RestController annotation on Controller class
+@RequestMapping("/courses") on method
 
-@Configuration
-@Bean - any object that is managed by spring framework, usually on configuration classes
-@Primary
-@Qualifier("qualifierName")
-@Component - when added to class, instance of class will be managed by spring framework
-@ComponentScan("packageToScan") - tell spring where to find component classes
-autowiring - process of wiring in dependencies for a spring bean
-@Autowired - annotation used to tell spring if a dependency is to be autowired
-context.getBeanDefinitionNames - list name of beans that are managed by spring
+spring boot starter projects
+starters - convenient dependency descriptors for diff features
 
-@bean vs @component annotation
-component instantiating beans for own application code
-bean for custom business logic, instantiating beans for 3rd party libraries
+spring boot provides variety of starter projects
+web application & rest api - spring boot starter web
+unit tests- spring boot starter test
+talk to database using jpa - spring boot starter data jpa
+talk to database using jdbc - spring boot starter data jdbc
+secure web app or rest api - spring boot starter security
 
-default initialization for spring beans is eager
-lazy initialization annotation indicates whether bean is lazy initialized(not recommended and not frequently used)
+spring boot dev tools
+- auto restarts server for every code/property file change
+- increase developer productivity, no need to manually restart server
+- if pom.xml changed, need to manually restart
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-devtools</artifactId>
+</dependency>
 
-eager initialization is recommended
-- errors in the configuration are discovered immediately at app startup
+Get production ready
+1. Profiles
+application.properties for different profiles
+create application-<profilename>.properties file
+in original application.properties file add spring.profiles.active=<profilename>
 
-spring bean scopes
-normal class(no scope annotation) - singleton (stateless beans, same bean used across application)
-prototype class - each time getbean is called, a different instance of bean is given(rarely used), used fo stateful beans(different user data,etc.)
+#sample currency-service-url 
+2. ConfigurationProperties - for externalized configuration and easy access to properties defined in properties files
+@ConfigurationProperties(prefix="currency-service")
+add properties
+private String url
 
-scopes only for web-aware SpringApplicationContext
-1. Request - one object instance per single http request
-2. Session - one object instance per user HTTP session
-3. Application - one object instance per web application runtime
-4. Websocket - one object instance per WebSocket instance
+3. Spring boot Embedded servers - simpler way to deploy application instead of using war file and app server
+step 1: install java
+step 2: run jar file
 
-Java Single (GOF) vs Spring Singleton
-spring singleton - one object instance per spring ioc container
-java singleton - one object instance per jvm
-
-postconstruct and predestroy
-@PostConstruct - used for initialization after dependencies are wired in (ex. fetching data from db)
-@PreDestroy - usually for cleanup before a bean is removed from container or context
-
-
-XmlConfiguration context sample (not frequently used)
-<bean id="name" class="java.lang.String">
-		<constructor-arg value="Ranga" />
-</bean>
-<bean id="age" class="java.lang.String">
-	<constructor-arg value="35" />
-</bean>
-<context:component-scan base-package="com.in28minutes.learnspringframework.game"/>
-<bean id="game" class="com.in28minutes.learnspringframework.game.PacmanGame"/>
-<bean id="gameRunner" class="com.in28minutes.learnspringframework.game.GameRunner">
- 	<constructor-arg ref="game"/>
- </bean>
+4. 
