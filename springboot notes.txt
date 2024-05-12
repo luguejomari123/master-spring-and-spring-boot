@@ -42,4 +42,14 @@ private String url
 step 1: install java
 step 2: run jar file
 
-4. 
+4. Spring Boot Actuator - monitor and manage application in app
+- provides a number of endpoints
+    a. beans - Complete list of Spring beans in app
+    b. health - Application health information
+    c. metrics - Application metrics
+    d. mappings - Details around Request Mappings
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
