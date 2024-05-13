@@ -53,3 +53,118 @@ step 2: run jar file
 	<artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 
+
+JPA
+- to view h2 console
+1. add in properties- spring.h2.console.enable=true
+2. go to localhost:8080/h2-console
+
+- to configure h2 url
+1.add in properties- spring.datasource.url=jdbc:h2:mem:<dbname>
+
+- to create a table in h2
+1. in src main resource new->sql file->schema.sql
+create table course(
+    id bigint not null,
+    name varchar(255) not null,
+    author varchar(255) not null,
+    primary key (id)
+);
+
+inserting hardcoded data using Spring JDBC
+1. private JdbcTemplate springJdbcTemplate; with @Autowired
+2. springJdbcTemplate.update(sqlquery)
+@Repository
+public class CourseJdbcRepository {
+	@Autowired
+	private JdbcTemplate springJdbcTemplate;
+	
+	private static String INSERT_QUERY = 
+		"""
+		insert into course (id, name, author)
+		values(?, ?, ?);
+		""";
+	
+	public void insert(Course course) {
+		springJdbcTemplate.update(INSERT_QUERY, course.getId(), course.getName(), 		course.getAuthor());
+	}
+}
+
+command line runner - used to indicate that a bean should run. Autoruns run method after beans are instantiated
+@Component
+public class CourseJdbcCommandLineRunner implements CommandLineRunner{
+	@Autowired
+	private CourseJdbcRepository repository;
+	
+	@Override
+	public void run(String... args) throws Exception {
+		repository.insert();
+	}
+}
+
+select query/find by id
+public Course findById(long id) {
+	//ResultSet -> Bean => Row Mapper =>
+	//id
+	return springJdbcTemplate.queryForObject(SELECT_QUERY, 
+		new BeanPropertyRowMapper<>(Course.class), id);
+		
+}
+
+jpa directly maps class to table (called an entity)
+@Entity/@Entity(name="<tableName>")
+@Id for primary key
+@Column(name="<colName>") for mapping variables to columns, if match not mandatory
+@PersistenceContext - more specific annotation instead of autowired for entitymanager
+
+@Repository
+@Transactional
+public class CourseJpaRepository {
+	@PersistenceContext
+	EntityManager entityManager;
+	
+	public void insert(Course course) {
+		entityManager.merge(course);
+	}
+
+	public Course findById(long id) {
+		return entityManager.find(Course.class, id);
+	}
+	
+	public void deleteById(long id) {
+		Course course = entityManager.find(Course.class, id);
+		entityManager.remove(course);
+	}
+}
+
+@Component
+public class CourseJpaCommandLineRunner implements CommandLineRunner{
+	
+	@Autowired
+	private CourseJpaRepository repository;
+	
+	@Override
+	public void run(String... args) throws Exception {
+		repository.insert(new Course(1, "Learn AWS Jpa!", "in28minutes"));
+		repository.insert(new Course(2, "Learn Azure Jpa!", "in28minutes"));
+		repository.insert(new Course(3, "Learn DevOps Jpa!", "in28minutes"));
+		repository.deleteById(1);
+		
+		System.out.println(repository.findById(2));
+		System.out.println(repository.findById(3));
+	}
+	
+}
+
+step 1: map java bean to table
+step 2: create Repository class with EntityManager variable
+
+to show queries done by jpa add to properties
+spring.jpa.show-sql=true
+
+spring data jpa
+step 1: map java bean to table
+step 2: create interface that extends JpaRepository
+public interface CourseSpringDataJpaRepository extends JpaRepository<Course, Long>
+custom method(needs naming convention)
+List<Course> findBy<variableName>(variable)
