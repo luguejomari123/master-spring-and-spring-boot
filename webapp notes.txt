@@ -1,0 +1,10 @@
+server.port=8081
+
+Controller
+@ResponseBody - it will return whatever is returned by this message as is to the browser
+
+View
+JSP - java server pages
+
+all jsp files should be created under
+/src/main/resources/META-INF/resources/WEB-INF/jsp/sayHello.jsp
