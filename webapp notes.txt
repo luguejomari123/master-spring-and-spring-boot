@@ -1,6 +1,8 @@
+to change port in application.properties
 server.port=8081
 
 Controller
+@Controller
 @ResponseBody - it will return whatever is returned by this message as is to the browser
 
 View
@@ -8,3 +10,29 @@ JSP - java server pages
 
 all jsp files should be created under
 /src/main/resources/META-INF/resources/WEB-INF/jsp/sayHello.jsp
+
+in application.properties
+prefix=/src/main/resources/META-INF/resources/WEB-INF/jsp/
+suffix=.jsp
+
+logging.level.org.springframework=debug
+
+to view jsp in tomcat
+<dependency>
+	<groupId>org.apache.tomcat.embed</groupId>
+	<artifactId>tomcat-embed-jasper</artifactId>
+	<scope>provided</scope>
+</dependency>
+
+query paramaters
+public String gotoLogin(@RequestParam String name) {
+
+
+Model
+http://localhost:8080/login?name=jom
+public String gotoLogin(@RequestParam String name, ModelMap model) {
+    model.put("nameToUseInJsp", name)
+}
+
+in jsp file to use variable
+${nameToUseInJsp}
