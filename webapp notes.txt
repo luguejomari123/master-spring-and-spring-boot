@@ -17,7 +17,7 @@ suffix=.jsp
 
 logging.level.org.springframework=debug
 
-to view jsp in tomcat
+to view jsp in tomcat server
 <dependency>
 	<groupId>org.apache.tomcat.embed</groupId>
 	<artifactId>tomcat-embed-jasper</artifactId>
@@ -32,7 +32,23 @@ Model
 http://localhost:8080/login?name=jom
 public String gotoLogin(@RequestParam String name, ModelMap model) {
     model.put("nameToUseInJsp", name)
+    return "login"
 }
 
 in jsp file to use variable
 ${nameToUseInJsp}
+
+dispatcher servlet
+A. receives HTTP Request
+B. Processes HTTP Request
+    B1. Identifies correct Controller method
+        - based on request URL
+    B2. Executes Controller method
+        - Returns Model and View Name
+    B3. Identifies correct View
+        - Using ViewResolver
+    B4. Executes view
+C. Returns HTTP Response
+
+
+@RequestMapping(value="login",method=RequestMethod.GET)
