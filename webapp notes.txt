@@ -52,3 +52,16 @@ C. Returns HTTP Response
 
 
 @RequestMapping(value="login",method=RequestMethod.GET)
+
+Request vs Model vs Session
+Request Scope = active for a single request ONLY
+    - once response is sent back, request attributes are removed from memory
+    - cannot be used for future requests
+    - recommended for most use cases
+Session Scope = details stored across multiple requests
+    - takes additional memory as all details are stored on server
+@SessionAttributes("name")
+
+Adding jstl(JavaServer Pages Tag Library) tags
+import taglib in jsp file
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
