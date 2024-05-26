@@ -168,3 +168,9 @@ step 2: create interface that extends JpaRepository
 public interface CourseSpringDataJpaRepository extends JpaRepository<Course, Long>
 custom method(needs naming convention)
 List<Course> findBy<variableName>(variable)
+
+Spring security
+<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+</dependency>

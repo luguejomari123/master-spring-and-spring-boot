@@ -142,3 +142,6 @@ spring.mvc.format.date=yyyy-MM-dd
 </nav>
 
 JSP fragments - used to remove duplicate code
+1. move common html code to common/header.jspf, common/navigation.jspf etc
+<%@ include file="common/navigation.jspf"%>
+
