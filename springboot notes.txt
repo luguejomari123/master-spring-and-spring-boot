@@ -6,6 +6,7 @@ in spring initializer go to add dependencies -> spring web
 
 put @RestController annotation on Controller class
 @RequestMapping("/courses") on method
+@RequestMapping(method = RequestMethod.GET, path = "/hello-world")
 
 spring boot starter projects
 starters - convenient dependency descriptors for diff features

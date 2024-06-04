@@ -1,0 +1,21 @@
+@RequestMapping(method = RequestMethod.GET, path = "/hello-world")
+@GetMapping(path = "/hello-world")
+
+@GetMapping(path = "/hello-world-bean")
+public HelloWorldBean helloWorldBean() {
+	return new HelloWorldBean("Hello World");
+}
+
+Path parameters
+@GetMapping(path = "/hello-world/path-variable/{name}")
+public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+	return new HelloWorldBean(String.format("Hello World %s", name));
+}
+
+Request Methods
+GET - Retrieve details of a resource
+POST - Create a new resource
+PUT - Update an existing resource
+PATCH - Update part of a resource
+DELETE - Delete a resource
+
