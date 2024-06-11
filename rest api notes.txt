@@ -103,8 +103,21 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 @Size(min = 2, message = "Name should have atleast 2 characters")
 @Past(message = "Birth Date should be in the past")
 
-    <dependency>
-    	<groupId>org.springdoc</groupId>
-    	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    	<version>2.3.0</version>
-    </dependency>
+<dependency>
+	<groupId>org.springdoc</groupId>
+	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	<version>2.3.0</version>
+</dependency>
+
+http://localhost:8080/swagger-ui/index.html
+
+internationalization - i18n
+create file called messages.properties
+inside contains:
+good.morning.message=Good Morning
+
+create file for other languages ex. messages_nl.properies, messages_fr.properties, message_de.properties etc.
+replace good.morning.message with equivalent for other languages
+good.morning.message=Goedemorgen
+good.morning.message=Bonjour
+good.morning.message=Guten Morgen
