@@ -176,3 +176,26 @@ public EntityModel<User> retrieveUser(@PathVariable int id){
 	
 	return entityModel;
 }
+
+customizing rest api response
+1. Customize field names in response
+    - @JSONProperty
+2. Return only selected fields
+    - Filtering
+	static filtering - @JsonIgnore=added to member, @JsonIgnoreProperties("propertyname") = added to class
+	dynamic filtering - @JsonFilter with FilterProvider
+	
+	private MappingJacksonValue createMappingJackSonValue(Object value, String filterId, String... propertyArray) {
+		MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(value);
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(propertyArray);
+		FilterProvider filters = new SimpleFilterProvider().addFilter(filterId, filter );
+		mappingJacksonValue.setFilters(filters);
+		
+		return mappingJacksonValue;
+	}
+	
+HAL explorer
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-rest-hal-explorer</artifactId>
+</dependency>
