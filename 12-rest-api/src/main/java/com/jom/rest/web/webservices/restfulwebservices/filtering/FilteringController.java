@@ -31,7 +31,7 @@ public class FilteringController {
 		
 		return mappingJacksonValue;
 	}
-	
+
 	private MappingJacksonValue createMappingJackSonValue(Object value, String filterId, String... propertyArray) {
 		MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(value);
 		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(propertyArray);

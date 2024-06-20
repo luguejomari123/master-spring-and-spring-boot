@@ -199,3 +199,17 @@ HAL explorer
 	<groupId>org.springframework.data</groupId>
 	<artifactId>spring-data-rest-hal-explorer</artifactId>
 </dependency>
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.defer-datasource-initialization=true
+
+mapping one to many relationships
+- in User class
+@OneToMany(mappedBy = "user")
+private List<Post> posts;
+
+- in Post class
+@ManyToOne
+private User user;
+
+spring.jpa.show-sql=true
