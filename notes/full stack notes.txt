@@ -1,0 +1,9 @@
+ES: ECMASCRIPT
+    - EmcaScript is standard
+    - JavaScript is implementation
+
+npm init
+    - package.json file is similar to pom.xml
+
+npm install jquery
+    - to automatically add jquery
