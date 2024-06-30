@@ -7,3 +7,99 @@ npm init
 
 npm install jquery
     - to automatically add jquery
+
+React - one of the most popular js libraries to build single page applications
+Create React App - recommended way to create a new single page application using React
+
+to create new project using react
+npx create-react-app <todo-app-name>
+
+npm start: runs app in development mode, rec: use google chrome
+npm test: run unit tests
+npm run build: build a production deployable unit(minified and optimized for performance)
+npm install --save react-router-dom: add a dependency to your project
+
+VSCode
+ctrl b : toggle explorer
+ctrl p: launch a specific file
+
+App Component = first component typically loaded in React Apps
+
+Parts of a Component
+1. View(JSX or JavaScript)
+2. Logic(JavaScript)
+3. Styling(CSS)
+4. State(Internal Data Store)
+5. Props(Pass Data)
+
+in app.js
+function FirstComponent() {
+  return (
+    <div className="First Component">First Component</div>
+  );
+}
+
+to add in app go to App() then put <FirstComponent></FirstComponent> in return
+
+import { Component } from 'react';
+
+class ThirdComponent extends Component{
+  render() {
+    return (
+      <div className="ThirdComponent">Trird Component</div>
+    );
+  }
+}
+
+function vs class components
+function components are recommended
+
+JSX = javascript xml
+  - used by React for presentation
+  - stricter than html
+  - only one top level tag allowed
+
+using parenthesis in function components make returning jsx easier
+Custom components should start with upper case letter
+specify css class using className
+if no braces is used when importing, the default export function is used
+
+JavaScript best practices
+1. each component is in its own file(or module)
+
+export default function FirstComponent() {
+    return (
+      <div className="FirstComponent">First Component</div>
+    );
+}
+
+in App.js
+import FirstComponent from './components/learning-examples/FirstComponent';
+import { FifthComponent } from './components/learning-examples/FirstComponent';
+
+
+const person = {
+    name: 'Jom',
+    address: {
+        line1: 'Balite Street, Apalit',
+        town: 'Pampanga',
+        country: 'Philippines'
+    },
+    profiles: ['twitter', 'linkedin', 'instagram'],
+
+    printProfile: () => {
+        person.profiles.map(
+            profile => console.log(profile)
+        )
+    }
+}
+
+
+export default function LeaningJavaScript(){
+    return (
+        <div>{person.name}</div>
+    );
+}
+
+
+
