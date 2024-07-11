@@ -101,5 +101,61 @@ export default function LeaningJavaScript(){
     );
 }
 
+<button className="counterButton" onClick={incrementCounterFunction}>increment</button>
 
+Options of styling your React components
+1. style
+    - error: <button style={border-radius:30px}>
+    - correct syntax: <button style={{borderRadius:"30px"}}>
+2. className
 
+Counter.css
+.counterButton{
+    font-size:16px;
+    background-color:#00a5ab;
+    width:100px;
+    margin:10px;
+    color:white;
+    padding:15px;
+    border-radius:30px;
+    border-color: black;
+    border-width: 5px;
+}
+
+.count{
+    font-size:150px;
+    padding:20px;
+}
+
+in Counter.jsx add
+import './Counter.css'
+
+useState hook
+returnrns two things:
+    1. current state
+	2. a function to update state
+each instance of component has its own state
+
+const [count, setCount] = useState(0)
+
+react props(properties)
+you can pass props object to a react component
+used for things that remain a constant during lifetime of a component
+
+function PlayingWithProps({property1, property2}){
+  console.log(property1)
+  console.log(property2)
+
+  return (
+    <div>Props</div>
+  )
+}
+
+setting prop types
+Counter.propTypes = {
+    by: PropTypes.number
+}
+
+Counter.defaultProps = {
+    by: 1
+}
