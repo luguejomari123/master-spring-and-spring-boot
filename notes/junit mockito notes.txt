@@ -1,0 +1,146 @@
+junit notes
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+//no guarantee of order of tests
+@Test
+
+@BeforeEach
+@BeforeAll    -- must be static
+@AfterEach
+@AfterAll      -- must be static
+
+<classname>Test.java 
+put in same package name as class to test
+
+Absence of failure is success
+Test Condition or Assert  for certain behavior
+
+
+###################################        assertEquals(expectedResult, actualResult);
+assertEquals(expected, actual, errorMessage);
+assertTrue(actualBool)
+assertFalse(actualBool)
+assertArrayEquals(expectedArray, actualArray)
+		
+java.lang.AssertionError: expected:<7> but was:<6>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at org.junit.Assert.assertEquals(Assert.java:633)
+	at com.jompogi.junit.MyMathTest.test(MyMathTest.java:18)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+
+
+
+
+mockito notes
+how to write unit test for classes with multiple dependencies
+1. stubs (high maintenance)
+class SomeBusinessImplTest {
+	@Test
+	void test() {
+		DataServiceStub dataServiceStub = new DataServiceStub();
+		SomeBusinessImpl businessImpl = new SomeBusinessImpl(dataServiceStub);
+		
+		int result = businessImpl.findTheGreatestFromAllData();
+		assertEquals(25, result);
+	}
+}
+
+class DataServiceStub implements DataService {
+	@Override
+	public int[] retrieveAllData() {
+		return new int[]{25,15,5};
+	}
+}
+
+
+2. mocks
+class SomeBusinessImplMockTest {
+	@Test
+	void test() {
+		DataService dataServiceMock = mock(DataService.class);
+//		when dataServiceMock.retrieveAllData() is called => return new int[] {25,15,5};
+		when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {25,15,5});
+		SomeBusinessImpl businessImpl = new SomeBusinessImpl(dataServiceMock);
+		int result = businessImpl.findTheGreatestFromAllData();
+		assertEquals(25, result);
+	}
+}
+
+mockito annotations
+@ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
+
+//sample
+@ExtendWith(MockitoExtension.class)
+class SomeBusinessImplMockTest {
+	@Mock
+	private DataService dataServiceMock;
+	
+	@InjectMocks
+	private SomeBusinessImpl businessImpl;
+	
+	@Test
+	void findTheGreatestFromAllData_basicScenario() {
+//		when dataServiceMock.retrieveAllData() is called => return new int[] {25,15,5};
+		when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {25,15,5});
+		int result = businessImpl.findTheGreatestFromAllData();
+		assertEquals(25, result);
+	}
+	
+	@Test
+	void findTheGreatestFromAllData_oneValue() {
+		when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {15});
+		int result = businessImpl.findTheGreatestFromAllData();
+		assertEquals(15, result);
+	}
+	
+	@Test
+	void findTheGreatestFromAllData_emptyArray() {
+		when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {});
+		int result = businessImpl.findTheGreatestFromAllData();
+		assertEquals(0, result);
+	}
+}
+
+//call multiple times
+@Test
+void multipleReturnTest() {
+
+	List listMock = mock(List.class);
+	when(listMock.size()).thenReturn(1).thenReturn(2); //last value is always used after last
+
+	assertEquals(1, listMock.size());
+	assertEquals(2, listMock.size());
+	assertEquals(2, listMock.size());
+}
+
+//call with parameters
+@Test
+void multipleReturnTest() {
+
+	List listMock = mock(List.class);
+	when(listMock.get(0)).thenReturn("SomeString1");
+
+	assertEquals("SomeString1", listMock.get(0));
+	assertEquals("SomeString1", listMock.get(1));
+}
+
+//generic parameters
+@Test
+void genericParameters() {
+
+	List listMock = mock(List.class);
+	when(listMock.get(Mockito.anyInt())).thenReturn("StringReturn");
+
+	assertEquals("StringReturn", listMock.get(0));
+	assertEquals("StringReturn", listMock.get(1));
+	assertEquals("StringReturn", listMock.get(2));
+	assertEquals("StringReturn", listMock.get(3));
+	assertEquals("StringReturn", listMock.get(4));
+	
+}

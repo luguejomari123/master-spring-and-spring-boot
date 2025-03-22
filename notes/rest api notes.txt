@@ -1,6 +1,11 @@
 @RequestMapping(method = RequestMethod.GET, path = "/hello-world")
 @GetMapping(path = "/hello-world")
 
+@GetMapping("/)
+public String helloWorld() {
+	return "{\"message\":\"Hello world\"}";
+}
+
 @GetMapping(path = "/hello-world-bean")
 public HelloWorldBean helloWorldBean() {
 	return new HelloWorldBean("Hello World");

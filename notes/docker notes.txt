@@ -33,3 +33,84 @@ spring.datasource.username=social-media-user
 spring.datasource.password=dummypassword
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+
+
+
+docker container run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+docker container run -d -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
+docker container run -d -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
+docker container ls 
+docker image ls
+docker container stop cc
+docker container run -d -p 5001:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+docker container run -d -p 5002:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+docker container run -p 5003:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+docker container run -p 5003:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+ 
+docker --version
+docker container ls
+docker build -t in28min/hello-world-docker:v1 .
+docker image list
+docker run -d -p 5000:5000 in28min/hello-world-docker:v1
+docker build -t in28min/hello-world-docker:v2 .
+docker container run -d -p 5000:5000 in28min/hello-world-docker:v2
+docker build -t in28min/hello-world-docker:v3 .
+docker container run -d -p 5000:5000 in28min/hello-world-docker:v3
+docker build -t in28min/hello-world-docker:v4 .
+
+image = package representing specific version of software
+container = rruntime instance of a docker image
+-p 5000:5000   used to map/expose port on different port    port on machine(host):port of original image(internal/only can be changed by dev)        hostport:containerport
+-d = detached mode, so you can still use terminal after running a container
+dockerfile = file with instruction to create a docker image
+
+building using Dockerfile
+docker build -t jompogi/recipe-sharing-api:v1 .                (do not forget the . at the end)
+
+
+
+
+1. docker image sample
+FROM openjdk:21-jdk-slim
+COPY target/*.jar app.jar
+EXPOSE 5000
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+
+2. building spring boot docker image using multi stage dockerfile (does not use anything in local machine to create jar, takes long tho)
+FROM maven:3.9.6-amazoncorretto-21-al2023 AS build
+WORKDIR /home/app
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk:21-jdk-slim
+EXPOSE 5000
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+
+
+
+
+3. build with caching
+FROM maven:3.9.6-amazoncorretto-21-al2023 AS build
+WORKDIR /home/app
+
+COPY ./pom.xml /home/app/pom.xml
+COPY ./src/main/java/com/in28minutes/rest/webservices/restfulwebservices/RestfulWebServicesApplication.java	/home/app/src/main/java/com/in28minutes/rest/webservices/restfulwebservices/RestfulWebServicesApplication.java
+
+RUN mvn -f /home/app/pom.xml clean package
+
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk:21-jdk-slim
+EXPOSE 5000
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+
+
+building dcker image with spring boot maven plugin
+run as > spring-boot:build-image

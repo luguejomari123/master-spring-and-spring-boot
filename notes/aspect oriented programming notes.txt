@@ -1,0 +1,62 @@
+aspect oriented programming notes
+aop = methods(aspects) that can be used on different methods that span different parts of code
+
+example: 
+instead of manually adding logger.info() in every method where you want to log something, you can create a reusable aspect to handle it for you. 
+This keeps your code clean and focused on its core logic.
+
+
+Terminologies
+Advice - what code to execute
+	ex: Logging, Authentication
+PointCut - Expression that identifies method calls to be intercepted
+	ex: execution(* com.jompogi.learn_spring_aop.aopexample.*.*.*(..))
+Aspect - A combination of Advice(what to do) and PointCut(when to intercept a method call)
+Weaver - framework that implements AOP
+	ex: AspectJ or Spring AOP
+	
+Join Point- When pointcut condition is true, the advice is executed. A specific execution insteance of an advice is called a Join Point
+ProceedingJoinPoint - Join Point with proceed() method
+
+Common Annotations:
+@Before - before method call
+@After - after method call(either successfully or with a thrown error)
+@AfterReturning - after method call returns
+@AfterThrowing - after method call returns
+@Around - before and after method call combined ----- uses ProceedingJoinPoint instead of JoinPoint
+
+
+
+
+
+@Before("com.jompogi.learn_spring_aop.aopexample.aspects.CommonPointCutConfig.businessPackageConfig()")
+public void logMethodCallBeforeExecution(JoinPoint joinPoint) {
+	logger.info("Before Aspect - {} is called with following arguments: {}", joinPoint, joinPoint.getArgs());
+}
+
+@After("execution(* com.jompogi.learn_spring_aop.aopexample.*.*.*(..))")
+public void logMethodCallAfterExecution(JoinPoint joinPoint) {
+	logger.info("After Aspect - {} is called with following arguments: {}", joinPoint, joinPoint.getArgs());
+}
+
+@AfterReturning(pointcut = "execution(* com.jompogi.learn_spring_aop.aopexample.*.*.*(..))",
+		returning = "returnValue")
+public void logMethodCallAfterReturningExecution(JoinPoint joinPoint, Object returnValue) {
+	logger.info("After Aspect - {} is called after return with following arguments: {}", joinPoint, joinPoint.getArgs());
+	logger.info(returnValue.toString());
+}
+
+
+//to simplify point cut configuration
+public class CommonPointCutConfig {
+
+	@Pointcut("execution(* com.jompogi.learn_spring_aop.aopexample.*.*.*(..))")
+	public void businessPackageConfig() {}
+	
+	//using beans
+	@Pointcut("bean(*Service*)")
+	public void dataPackageConfigUsingBean() {}
+}
+
+
+Creating annotations
